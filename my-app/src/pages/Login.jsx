@@ -1,80 +1,115 @@
-import React, { Component } from 'react';
-
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  MDBContainer,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBModalHeader,
+  MDBModalFooter,
+  MDBInput,
+} from "mdbreact";
+import history from "../history";
+const myPost = "https://5cb04f6bf7850e0014629aa3.mockapi.io/account";
 export default class LoginPage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    // reset login status
+    // this.props.logout();
+
     this.state = {
-      username: '',
-      password: '',
-      error: '',
+      email: "",
+      password: "",
+      submitted: false,
     };
-
-    this.handlePassChange = this.handlePassChange.bind(this);
-    this.handleUserChange = this.handleUserChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.dismissError = this.dismissError.bind(this);
   }
-
-  dismissError() {
-    this.setState({ error: '' });
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   }
-
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-    if (!this.state.username) {
-      return this.setState({ error: 'Username is required' });
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({ submitted: true });
+    const { email, password } = this.state;
+    if (email && password) {
+      history.push("/");
+    } else {
+      alert("Some thing is missing");
     }
-
-    if (!this.state.password) {
-      return this.setState({ error: 'Password is required' });
-    }
-
-    return this.setState({ error: '' });
   }
-
-  handleUserChange(evt) {
-    this.setState({
-      username: evt.target.value,
-    });
-  };
-
-  handlePassChange(evt) {
-    this.setState({
-      password: evt.target.value,
-    });
-  }
-
   render() {
-
+    const { loggingIn } = this.props;
+    const { email, password, submitted } = this.state;
     return (
-      <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          {
-            this.state.error &&
-            <h3 data-test="error" onClick={this.dismissError}>
-              <button onClick={this.dismissError}>✖</button>
-              {this.state.error}
-            </h3>
-          }
-          <div className="form group">
-              <label>User name</label>
-              <input type="text" data-test="username" className="form-control" placeholder="Enter email" value={this.state.username} onChange={this.handleUserChange} />
-          </div>
-          <div className="form-group">
-              <label>Password</label>
-              <input type="password" data-test= "password" className="form-control" placeholder="Enter password" value={this.state.password} onChange={this.handlePassChange} />
-          </div>
-          <button type="submit" className="btn btn-primary btn-block" value="Log In" data-test="submit">Submit</button>
-          <p className="forgot-password text-right">
-              Forgot <a href="#">password?</a></p>
-        </form>
+      <div className="mt-5">
+        <div
+          class="container rounded p-3"
+          style={{ height: "", width: "800px", border: "2px solid grey" }}
+        >
+          <MDBModalHeader
+            className="text-center"
+            titleClass="w-100 font-weight-bold"
+          >
+            Login
+          </MDBModalHeader>
+          <MDBModalBody>
+            <form className="mx-3 grey-text">
+              <MDBInput
+                label="Your email"
+                icon="envelope"
+                group
+                name="email"
+                type="email"
+                value={this.state.email}
+                validate
+                error="wrong"
+                success="right"
+                onChange={this.handleChange.bind(this)}
+              />
+              <MDBInput
+                label="Your password"
+                icon="lock"
+                group
+                name="password"
+                type="password"
+                value={this.state.password}
+                validate
+                onChange={this.handleChange.bind(this)}
+              />
+            </form>
+          </MDBModalBody>
+          <MDBModalFooter className="justify-content-center">
+            <MDBBtn
+              type="button"
+              color="deep-orange"
+              onClick={this.handleSubmit.bind(this)}
+            >
+              Login
+            </MDBBtn>
+
+            <Link to="/Register">
+              <MDBBtn
+                type="button"
+                color="green"
+                //   onClick={this.handleAdd.bind(this)}
+              >
+                Register
+              </MDBBtn>
+            </Link>
+          </MDBModalFooter>
+        </div>
       </div>
     );
   }
 }
 
+function mapState(state) {
+  const { loggingIn } = state.authentication;
+  return { loggingIn };
+}
 
-
-
-     
+// const connectedLoginPage = connect(mapState)(LoginPage);
+// export { connectedLoginPage as LoginPage };
