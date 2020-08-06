@@ -10,7 +10,7 @@ export default class Profile extends React.Component {
             userName: '',
             email: '',
             lastName: '',
-            firstName: ''
+            firstName: '',
         }
     }
 
@@ -21,26 +21,24 @@ export default class Profile extends React.Component {
             .then(res => res.json())
             .then(json => {
                 let data = json.filter(a => a.userName === params.userName)
-                this.setState({ account: data })
+                this.setState({ account: data})
             })
     }
 
     handleUpdate() {
         const {match: {params}} = this.props;
         if (
-            this.state.userName !== '' &&
             this.state.email !== '' &&
             this.state.firstName !== '' &&
             this.state.lastName !== ''
         ) {
-            fetch(myGet + '/' + params.userName, {
+            fetch(myGet + '/' + this.state.account[0].id, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 method: 'put',
                 body: JSON.stringify({
-                    userName: this.state.userName,
                     email: this.state.email,
                     firstName: this.state.firstName,
                     lastName: this.state.lastName
@@ -102,6 +100,7 @@ export default class Profile extends React.Component {
                                                                                     placeholder={a.userName}
                                                                                     value={this.state.userName}
                                                                                     onChange={this.handleChange.bind(this)}
+                                                                                    disabled
                                                                                     name="userName"
                                                                                 />
                                                                             </div>

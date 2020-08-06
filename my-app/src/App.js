@@ -4,8 +4,9 @@ import './App.css';
 import Register from './pages/Register';
 import Draft from './pages/Draft';
 import Profile from './pages/Profile';
+import Login from './pages/Login';
 import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom'
-import RouterTest from './RouterTest';
+
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         {/* <Route exact path='/RouterTest' component={RouterTest} /> */}
         <Route exact path='/' component={Register}/>
+        <Route exact path='/login' component={Login}/>
         <Route path={`/Profile/:userName`} render={(props) =>
             <Profile {...props} />
           } />

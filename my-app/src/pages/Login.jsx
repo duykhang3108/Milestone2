@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   MDBContainer,
   MDBBtn,
@@ -22,6 +22,8 @@ export default class LoginPage extends React.Component {
       email: "",
       password: "",
       submitted: false,
+      myuser: undefined,
+      listOfUsers: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +31,28 @@ export default class LoginPage extends React.Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  }
+  getInfo() {
+    let myUrl = 'https://5cb04f6bf7850e0014629aa3.mockapi.io/account';
+    fetch(myUrl)
+      .then(res => res.json())
+      .then(data => {
+        var user = data.find(e => e.email == this.state.email);
+        if (user != null) {
+
+          var path = "/Profile/" + user.userName
+          this.setState({ myuser:user })
+          
+        }
+
+      })
+  }
+  reDirecting()
+  {
+    if(this.state.myuser != undefined)
+    {
+      return <Redirect to={"/Profile/"+this.state.myuser.userName} />
+    }
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -44,7 +68,9 @@ export default class LoginPage extends React.Component {
     const { loggingIn } = this.props;
     const { email, password, submitted } = this.state;
     return (
+
       <div className="mt-5">
+        {this.reDirecting()}
         <div
           class="container rounded p-3"
           style={{ height: "", width: "800px", border: "2px solid grey" }}
@@ -85,7 +111,7 @@ export default class LoginPage extends React.Component {
             <MDBBtn
               type="button"
               color="deep-orange"
-              onClick={this.handleSubmit.bind(this)}
+              onClick={this.getInfo.bind(this)}
             >
               Login
             </MDBBtn>
@@ -94,7 +120,7 @@ export default class LoginPage extends React.Component {
               <MDBBtn
                 type="button"
                 color="green"
-                //   onClick={this.handleAdd.bind(this)}
+              //   onClick={this.handleAdd.bind(this)}
               >
                 Register
               </MDBBtn>
