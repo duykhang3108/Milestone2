@@ -5,21 +5,62 @@ export default class Profile extends React.Component {
     constructor() {
         super()
         this.state = {
-            account: []
+            account: [],
+            id:'',
+            userName: '',
+            email: '',
+            lastName: '',
+            firstName: ''
         }
     }
 
-    fectchProduct() {
+    fectchAccount() {
+        const { match: { params } } = this.props;
+        console.log(params.userName)
         fetch(myGet)
             .then(res => res.json())
             .then(json => {
-                let data = json.filter(a => a.name !== '' && a.email !== '')
+                let data = json.filter(a => a.userName === params.userName)
                 this.setState({ account: data })
             })
     }
 
+    handleUpdate() {
+        const {match: {params}} = this.props;
+        if (
+            this.state.userName !== '' &&
+            this.state.email !== '' &&
+            this.state.firstName !== '' &&
+            this.state.lastName !== ''
+        ) {
+            fetch(myGet + '/' + params.userName, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'put',
+                body: JSON.stringify({
+                    userName: this.state.userName,
+                    email: this.state.email,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName
+                })
+            })
+                .then(()=> this.props.fectchAccount())
+                alert('The account has been successfully updated')
+        } else {
+            alert('Please enter correct information')
+        }
+    }
+
+    handleChange(event) {
+        let obj = []
+        obj[event.target.name] = event.target.value
+        this.setState(obj)
+    }
+
     componentDidMount() {
-        this.fectchProduct()
+        this.fectchAccount()
     }
 
     render() {
@@ -55,25 +96,67 @@ export default class Profile extends React.Component {
                                                                                 <label for="username">
                                                                                     <strong>Username</strong>
                                                                                 </label>
-                                                                                <input class="form-control" type="text" placeholder={a.userName} name="username" /></div>
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="text"
+                                                                                    placeholder={a.userName}
+                                                                                    value={this.state.userName}
+                                                                                    onChange={this.handleChange.bind(this)}
+                                                                                    name="userName"
+                                                                                />
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label for="email">
                                                                                     <strong>Email Address</strong>
                                                                                 </label>
-                                                                                <input class="form-control" type="email" placeholder={a.email} name="email" /></div>
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="email"
+                                                                                    placeholder={a.email}
+                                                                                    value={this.state.email}
+                                                                                    name="email"
+                                                                                    onChange={this.handleChange.bind(this)}
+                                                                                />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-row">
                                                                         <div class="col">
-                                                                            <div class="form-group"><label for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" placeholder={a.firstName} name="first_name" /></div>
+                                                                            <div class="form-group">
+                                                                                <label for="first_name">
+                                                                                    <strong>First Name</strong>
+                                                                                </label>
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="text"
+                                                                                    placeholder={a.firstName}
+                                                                                    value={this.state.firstName}
+                                                                                    name="firstName"
+                                                                                    onChange={this.handleChange.bind(this)}
+                                                                                />
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col">
-                                                                            <div class="form-group"><label for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" placeholder={a.lastName} name="last_name" /></div>
+                                                                            <div class="form-group">
+                                                                                <label for="last_name">
+                                                                                    <strong>Last Name</strong>
+                                                                                </label>
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="text"
+                                                                                    placeholder={a.lastName}
+                                                                                    value={this.state.lastName}
+                                                                                    name="lastName"
+                                                                                    onChange={this.handleChange.bind(this)}
+                                                                                />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
+                                                                    <div class="form-group">
+                                                                        <button class="btn btn-primary btn-sm" type="submit" onClick={this.handleUpdate.bind(this)}>Save Settings</button>
+                                                                    </div>
                                                                 </form>
 
                                                             </div>

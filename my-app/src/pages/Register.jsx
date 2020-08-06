@@ -8,6 +8,8 @@ import {
     MDBModalFooter,
     MDBInput,
 } from 'mdbreact';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import Profile from './Profile'
 
 const myPost = 'https://5cb04f6bf7850e0014629aa3.mockapi.io/account'
 export default class Register extends React.Component {
@@ -69,7 +71,7 @@ export default class Register extends React.Component {
                     </MDBModalHeader>
                     <MDBModalBody>
                         <form className='mx-3 grey-text'>
-                        <MDBInput
+                            <MDBInput
                                 label='Username'
                                 icon='envelope'
                                 group
@@ -130,12 +132,18 @@ export default class Register extends React.Component {
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className='justify-content-center'>
-                        <MDBBtn type='button' color='deep-orange' onClick={this.handleAdd.bind(this)}>
-                            SIGN UP
-                        </MDBBtn>
+                        <Link to={`/Profile/${this.state.userName}`}>
+                            <MDBBtn type='button' color='deep-orange' onClick={this.handleAdd.bind(this)}>
+                                SIGN UP
+                                </MDBBtn>
+                        </Link>
                     </MDBModalFooter>
                 </div>
-            </div>
+
+                <div>
+                   
+                </div>
+            </div >
         )
     }
 
