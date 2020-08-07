@@ -36,3 +36,74 @@
     transform: rotate(360deg);
   }
 }
+.App .contact i {
+  color: orange;
+  border: 1px solid gray;
+  width: 55px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.App .contact-form input:focus,
+.App .contact-form textarea:focus {
+  border-color: orange;
+  box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.25);
+}
+
+.App .contact-form .contact-btn {
+  float: right;
+  border: 2px solid orange;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: orange;
+  border-radius: 50px;
+}
+
+.App .title-border {
+  border-bottom: 1px solid rgb(194, 191, 191);
+  padding: 5px;
+  margin: 10px;
+}
+
+.App .title {
+  display: inline;
+  border-bottom: 5px solid orange;
+}
+
+.App .map {
+  border: 0;
+  width: 100%;
+  z-index: 10;
+  top: 100px;
+  position: absolute;
+  padding: 0 7%;
+  border-radius: 50px;
+}
+
+.App .img-contact {
+  width: 100%;
+  margin-bottom: 250px;
+  background-image: url("https://cdn.pixabay.com/photo/2019/09/21/06/41/night-4493143_960_720.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 350px;
+}
+
+.App .img-title {
+  padding-left: 10vw;
+  color: orange;
+}
+
+.App .img-title h1 {
+  color: white;
+  font-weight: 200;
+}
+
+.home{
+  text-align: center;
+  width: 80%;
+}
+.section1{
+  width: 100%;
+}

@@ -10,8 +10,23 @@ export default class Appointment extends Component {
                  date:"",
                  meeting_user:"",
                  note:"",
-                 status:""
+                 status:"",
+                 building:1,
+                 floor:1,
+                 room:1
         }
+    }
+    resetState()
+    {
+        this.setState({title:"",         
+        guest_name:"",
+        date:"",
+        meeting_user:"",
+        note:"",
+        status:"",
+        building:1,
+        floor:1,
+        room:1})
     }
     handleChangeTitle(event) {
         // let obj = []
@@ -46,17 +61,25 @@ export default class Appointment extends Component {
             note : event.target.value
         });
     }
+    handleChange(event)
+    {
+        let obj = []
+        obj[event.target.name] = event.target.value
+        this.setState(obj)
+    }
     fetchAppointmentCreate()
     {
+        var position = this.state.building + "." + this.state.floor + "."+this.state.room
         var input = {
             title: this.state.title,
-            guest_name: this.state.guest_name,
+            guest_name: this.props.guest_name,
             meetingdate: this.state.meetingdate,
             meeting_user: this.state.meeting_user,
             status: "OnProgress",
-            note: this.state.note
+            note: this.state.note,
+            location: position
         }
-        var url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointment"
+        var url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
         const response = fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             //ode: 'cors', // no-cors, *cors, same-origin
@@ -69,15 +92,20 @@ export default class Appointment extends Component {
             //redirect: 'follow', // manual, *follow, error
             //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(input) // body data type must match "Content-Type" header
-          });
+          }) 
+          .then(response => {
+              this.resetState();
+              this.props.refreshProfile();
+          })
     }
+
     render() {
         return (
             <div className = "container">
                 <h1>Appointment Form</h1>
                 <form>
                 <div className = "form-group">
-                        <label for ="title">Title</label>
+                        <label htmlFor="title">Title</label>
                         <input 
                         type ="text" 
                         className ="form-control" 
@@ -85,19 +113,10 @@ export default class Appointment extends Component {
                         name = "title"
                         onChange = {this.handleChangeTitle.bind(this)}
                         />
-                    </div>
+                    </div>                    
+
                     <div className = "form-group">
-                        <label for ="name">Guest Name</label>
-                        <input 
-                        type ="text" 
-                        className ="form-control" 
-                        placeholder ="Enter the guest name"
-                        name = "guest_name"
-                        onChange = {this.handleChangeGuestName.bind(this)}
-                        />
-                    </div>
-                    <div className = "form-group">
-                        <label for ="date">Meeting Date</label>
+                        <label htmlFor="date">Meeting Date</label>
                         <input 
                         type ="date" 
                         className ="form-control" 
@@ -105,7 +124,7 @@ export default class Appointment extends Component {
                         onChange = {this.handleChangeMeetingDate.bind(this)}/>
                     </div>
                     <div className = "form-group">
-                        <label for ="meetingperson">Meeting Person</label>
+                        <label htmlFor="meetingperson">Meeting Person</label>
                         <input 
                         type ="text" 
                         className ="form-control" 
@@ -114,7 +133,28 @@ export default class Appointment extends Component {
                         onChange = {this.handleChangeMeetinUser.bind(this)}/>
                     </div>
                     <div className = "form-group">
-                        <label for ="note">Note</label>
+                        <h2>Location</h2>
+                        Building : 
+                        <input 
+                        type ="number" 
+                        className ="form-control" 
+                        name = "building"
+                        onChange = {this.handleChange.bind(this)}/>
+                        Floor : 
+                        <input 
+                        type ="number" 
+                        className ="form-control" 
+                        name = "floor"
+                        onChange = {this.handleChange.bind(this)}/>
+                        Room : 
+                        <input 
+                        type ="number" 
+                        className ="form-control" 
+                        name = "room"
+                        onChange = {this.handleChange.bind(this)}/>
+                    </div>
+                    <div className = "form-group">
+                        <label htmlFor="note">Note</label>
                         <input 
                         type ="text" 
                         className ="form-control" 

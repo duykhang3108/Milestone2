@@ -12,12 +12,12 @@ export default class Calendar extends Component {
         }
     }
     fetchData() {
-        console.log("data fetching")
-        let url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointment"
+        let url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
         fetch(url)
             .then(response => response.json())
             .then(data => {          
-                var events =[]      
+                let events=[]
+                data = data.filter(a => a.guest_name == this.props.userName)    
                 data.forEach(e => {                   
                     var event = { title: e.title, date: e.meetingdate }                
                    events.push(event)
@@ -25,7 +25,7 @@ export default class Calendar extends Component {
                 this.setState({list:events})
             })
     }
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData();
     }
     render() {

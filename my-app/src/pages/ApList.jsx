@@ -1,30 +1,49 @@
 import React from 'react'
 import "../App.css";
 import OneAd from './OneAp';
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 
 
 export default class ApList extends React.Component {
 
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             aps:[]
+        }
+    }
+    fetchData() {
+        let url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {          
+                let events=[]
+                data = data.filter(a => a.guest_name === this.props.userName)    
+                
+                this.setState({aps:data})
+            })
+    }
     componentDidMount() {
+        this.fetchData()
         console.log("in ad list")
     }
 
     render() {
         return (
             <div >
-                 <main class="bg-dark page landing-page" style={{ paddingTop: '50px' }}>
-                    <section class="bg-dark clean-block clean-info dark">
-                        <div class="container bg-dark">
-                            <div class="block-heading">
-                                <h2 class="text-monospace text-info">List of Appointments</h2>
+                 <main className="bg-dark page landing-page" style={{ paddingTop: '50px' }}>
+                    <section className="bg-dark clean-block clean-info dark">
+                        <div className="container bg-dark">
+                            <div className="block-heading">
+                                <h2 className="text-monospace text-info">List of Appointments</h2>
                               
                             </div>
-                            <div class="row align-items-center mt-5">
-                            {this.props.aps.map((a)=>
-                    <Link to={`/advertisement/${a.id}`} style={{ color: "inherit", textDecoration: "none" }} class="col-lg-4 pb-4">
-                        <OneAd name={a.name} location={a.location} time={a.time} avatar={a.avatar}/>
+                            <div className="row align-items-center mt-5">
+                            {this.state.aps.map((a)=>
+                    <Link to={`/advertisement/${a.id}`} style={{ color: "inherit", textDecoration: "none" }} className="col-lg-4 pb-4">
+                        <OneAd title={a.title} location={a.location} time={a.meetingdate} avatar={a.avatar}/>
                     </Link>
                     )}
                             </div>
