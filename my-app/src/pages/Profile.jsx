@@ -1,4 +1,13 @@
 import React from 'react'
+import {
+    MDBContainer,
+    MDBBtn,
+    MDBModal,
+    MDBModalBody,
+    MDBModalHeader,
+    MDBModalFooter,
+    MDBInput,
+  } from "mdbreact";
 
 const myGet = 'https://5cb04f6bf7850e0014629aa3.mockapi.io/account'
 export default class Profile extends React.Component {
@@ -6,7 +15,7 @@ export default class Profile extends React.Component {
         super()
         this.state = {
             account: [],
-            id:'',
+            id: '',
             userName: '',
             email: '',
             lastName: '',
@@ -21,12 +30,12 @@ export default class Profile extends React.Component {
             .then(res => res.json())
             .then(json => {
                 let data = json.filter(a => a.userName === params.userName)
-                this.setState({ account: data})
+                this.setState({ account: data })
             })
     }
 
     handleUpdate() {
-        const {match: {params}} = this.props;
+        const { match: { params } } = this.props;
         if (
             this.state.email !== '' &&
             this.state.firstName !== '' &&
@@ -44,8 +53,8 @@ export default class Profile extends React.Component {
                     lastName: this.state.lastName
                 })
             })
-                .then(()=> this.props.fectchAccount())
-                alert('The account has been successfully updated')
+                .then(() => this.props.fectchAccount())
+            alert('The account has been successfully updated')
         } else {
             alert('Please enter correct information')
         }
@@ -77,6 +86,22 @@ export default class Profile extends React.Component {
                                                     <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src={a.avatar} width="160" height="160" />
                                                         <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Change Photo</button></div>
                                                     </div>
+                                                </div>
+                                                <div class="container">
+                                                    <MDBBtn
+                                                        type="button"
+                                                        color="deep-orange"
+                                                        style={{width: "220px", marginLeft: "110px", marginTop: "50px"}}
+                                                    >
+                                                        View calendar
+                                                    </MDBBtn>
+                                                    <MDBBtn
+                                                        type="button"
+                                                        color="purple"
+                                                        style={{width: "220px", marginLeft: "110px", marginTop: "50px"}}
+                                                    >
+                                                        View appointment
+                                                    </MDBBtn>
                                                 </div>
                                             </div>
                                             <div class="col-lg-8">
