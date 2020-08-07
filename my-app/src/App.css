@@ -36,22 +36,27 @@
     transform: rotate(360deg);
   }
 }
-.App .contact i {
+
+.contact  {
+  border: 1px solid black;
+  text-align: center;  
+}
+.contact i {
   color: orange;
   border: 1px solid gray;
   width: 55px;
   padding: 10px;
   text-align: center;
   border-radius: 50%;
+  
 }
 
-.App .contact-form input:focus,
-.App .contact-form textarea:focus {
+.contact-form input:focus,
+.contact-form textarea:focus {
   border-color: orange;
   box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.25);
 }
-
-.App .contact-form .contact-btn {
+ .contact-form .contact-btn {
   float: right;
   border: 2px solid orange;
   padding-left: 30px;

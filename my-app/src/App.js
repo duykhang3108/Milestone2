@@ -6,6 +6,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
+import Contact from './pages/Contact';
 
 
 
@@ -25,6 +26,7 @@ function App() {
         </Switch>
 
       </Router>
+      <Contact/>
     </div>
 
   );
