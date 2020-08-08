@@ -1,16 +1,16 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
-  MDBContainer,
+  //MDBContainer,
   MDBBtn,
-  MDBModal,
+  //MDBModal,
   MDBModalBody,
   MDBModalHeader,
   MDBModalFooter,
   MDBInput,
 } from "mdbreact";
 import history from "../history";
-const myPost = "https://5cb04f6bf7850e0014629aa3.mockapi.io/account";
+
 export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -33,14 +33,12 @@ export default class LoginPage extends React.Component {
     this.setState({ [name]: value });
   }
   getInfo() {
-    let myUrl = 'https://5cb04f6bf7850e0014629aa3.mockapi.io/account';
+    let myUrl = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users';
     fetch(myUrl)
       .then(res => res.json())
       .then(data => {
-        var user = data.find(e => e.email == this.state.email);
-        if (user != null) {
-
-          var path = "/Profile/" + user.userName
+        var user = data.find(e => e.email === this.state.email);
+        if (user !==null) {
           this.setState({ myuser:user })
           
         }
@@ -49,7 +47,7 @@ export default class LoginPage extends React.Component {
   }
   reDirecting()
   {
-    if(this.state.myuser != undefined)
+    if(this.state.myuser !==undefined)
     {
       return <Redirect to={"/Profile/"+this.state.myuser.userName} />
     }
@@ -65,19 +63,19 @@ export default class LoginPage extends React.Component {
     }
   }
   render() {
-    const { loggingIn } = this.props;
-    const { email, password, submitted } = this.state;
+    //const { loggingIn } = this.props;
+    //const { email, password, submitted } = this.state;
     return (
 
       <div className="mt-5">
         {this.reDirecting()}
         <div
-          class="container rounded p-3"
+          className="container rounded p-3"
           style={{ height: "", width: "800px", border: "2px solid grey" }}
         >
           <MDBModalHeader
             className="text-center"
-            titleClass="w-100 font-weight-bold"
+            titleclassName="w-100 font-weight-bold"
           >
             Login
           </MDBModalHeader>
@@ -116,15 +114,7 @@ export default class LoginPage extends React.Component {
               Login
             </MDBBtn>
 
-            <Link to="/Register">
-              <MDBBtn
-                type="button"
-                color="green"
-              //   onClick={this.handleAdd.bind(this)}
-              >
-                Register
-              </MDBBtn>
-            </Link>
+            
           </MDBModalFooter>
         </div>
       </div>
@@ -132,10 +122,10 @@ export default class LoginPage extends React.Component {
   }
 }
 
-function mapState(state) {
-  const { loggingIn } = state.authentication;
-  return { loggingIn };
-}
+// function mapState(state) {
+//   const { loggingIn } = state.authentication;
+//   return { loggingIn };
+// }
 
 // const connectedLoginPage = connect(mapState)(LoginPage);
 // export { connectedLoginPage as LoginPage };

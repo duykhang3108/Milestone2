@@ -1,17 +1,17 @@
 import React from 'react'
 import {
-    MDBContainer,
+    //MDBContainer,
     MDBBtn,
-    MDBModal,
+    //MDBModal,
     MDBModalBody,
     MDBModalHeader,
     MDBModalFooter,
     MDBInput,
 } from 'mdbreact';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
-import Profile from './Profile'
+import {Link} from 'react-router-dom'
+//import Profile from './Profile'
 
-const myPost = 'https://5cb04f6bf7850e0014629aa3.mockapi.io/account'
+const myPost = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users'
 export default class Register extends React.Component {
     constructor() {
         super();
@@ -31,11 +31,11 @@ export default class Register extends React.Component {
     }
 
     handleAdd() {
-        if (this.state.name == '' |
-            this.state.email == '' |
-            this.state.password == '' |
-            this.state.firstName == '' |
-            this.state.lastName == ''
+        if (this.state.name === '' |
+            this.state.email === '' |
+            this.state.password === '' |
+            this.state.firstName === '' |
+            this.state.lastName === ''
         ) {
             alert('Something is missing')
         } else {
@@ -132,11 +132,10 @@ export default class Register extends React.Component {
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className='justify-content-center'>
-                        <Link to={`/Profile/${this.state.userName}`}>
-                            <MDBBtn type='button' color='deep-orange' onClick={this.handleAdd.bind(this)}>
+                        
+                        <MDBBtn type='button' color='deep-orange' onClick={this.handleAdd.bind(this)}>
                                 SIGN UP
                                 </MDBBtn>
-                        </Link>
                     </MDBModalFooter>
                 </div>
 
