@@ -8,13 +8,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import ContactForm from './pages/ContactForm';
+import Header from './Header';
 
 
 
 function App() {
   return (
     <div>
-      <Home/>
+      <Header></Header>
       <Router>
         <Switch>
           {/* <Route exact path='/RouterTest' component={RouterTest} /> */}
