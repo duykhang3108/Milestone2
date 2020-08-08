@@ -20,16 +20,6 @@ export default class Home extends Component {
                      <img
                             className="section1"
                             src="https://tgmdental.net/wp-content/uploads/2018/07/booking-background.jpg" />
-                    <div className="row">
-                       
-                            <div className="col">
-                                <LoginPage/>
-                            </div>
-                            <div className="col">
-                                <Register/>                            
-                            </div>
-                    </div>
-                    
 
                 </div>
             </div>

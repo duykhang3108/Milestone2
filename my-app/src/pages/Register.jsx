@@ -8,7 +8,7 @@ import {
     MDBModalFooter,
     MDBInput,
 } from 'mdbreact';
-import {Link} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 //import Profile from './Profile'
 
 const myPost = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users'
@@ -20,7 +20,8 @@ export default class Register extends React.Component {
             firstName: '',
             lastName: '',
             email: '',
-            password: ''
+            password: '',
+            registered: false
         }
     }
 
@@ -55,10 +56,17 @@ export default class Register extends React.Component {
                 method: 'post',
                 body: JSON.stringify(account)
             })
-                .then(json => alert('Added'))
+                .then(json => {
+                    alert('You have signed up successfully!')
+                    this.setState({ registered: true })
+                })
         }
     }
-
+    refreshPage() {
+        if (this.state.registered) {
+            return <Redirect to="/" />
+        }
+    }
     render() {
         return (
             <div>
@@ -132,15 +140,16 @@ export default class Register extends React.Component {
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className='justify-content-center'>
-                        
+
                         <MDBBtn type='button' color='deep-orange' onClick={this.handleAdd.bind(this)}>
-                                SIGN UP
+                            SIGN UP
                                 </MDBBtn>
+                        {this.refreshPage()}
                     </MDBModalFooter>
                 </div>
 
                 <div>
-                   
+
                 </div>
             </div >
         )
