@@ -6,7 +6,7 @@ export default class Profile extends React.Component {
         super()
         this.state = {
             account: [],
-            id:'',
+            id: '',
             userName: '',
             email: '',
             lastName: '',
@@ -21,34 +21,33 @@ export default class Profile extends React.Component {
             .then(res => res.json())
             .then(json => {
                 let data = json.filter(a => a.userName === params.userName)
-                this.setState({ account: data})
+                this.setState({
+                    account: data,
+                    email: data[0].email,
+                    firstName: data[0].firstName,
+                    lastName: data[0].lastName
+                })
             })
     }
 
     handleUpdate() {
-        const {match: {params}} = this.props;
-        if (
-            this.state.email !== '' &&
-            this.state.firstName !== '' &&
-            this.state.lastName !== ''
-        ) {
-            fetch(myGet + '/' + this.state.account[0].id, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: 'put',
-                body: JSON.stringify({
-                    email: this.state.email,
-                    firstName: this.state.firstName,
-                    lastName: this.state.lastName
-                })
+        const { match: { params } } = this.props;
+
+        fetch(myGet + '/' + this.state.account[0].id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'put',
+            body: JSON.stringify({
+                email: this.state.email,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
-                .then(()=> this.props.fectchAccount())
-                alert('The account has been successfully updated')
-        } else {
-            alert('Please enter correct information')
-        }
+        })
+            .then(() => this.fectchAccount())
+        alert('The account has been successfully updated')
+
     }
 
     handleChange(event) {
@@ -154,7 +153,7 @@ export default class Profile extends React.Component {
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <button class="btn btn-primary btn-sm" type="submit" onClick={this.handleUpdate.bind(this)}>Save Settings</button>
+                                                                        <button class="btn btn-primary btn-sm" onClick={this.handleUpdate.bind(this)}>Save Settings</button>
                                                                     </div>
                                                                 </form>
 
