@@ -67,7 +67,7 @@ export default class ContactForm extends Component {
     return (
       <div className ="container">
         {this.resetPage()}
-        <Fragment>
+
           <form className="contact-form">
             <div class="form-group">
               <label for="name">
@@ -118,12 +118,7 @@ export default class ContactForm extends Component {
               SEND MESSAGE
         </button>
             </div>
-
-            <button onClick={this.createData.bind(this)} class="contact-btn btn ">
-              SEND MESSAGE
-        </button>
           </form>
-        </Fragment>
       </div>
     )
   }

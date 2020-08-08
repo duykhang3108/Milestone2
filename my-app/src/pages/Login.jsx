@@ -113,12 +113,12 @@ export default class LoginPage extends React.Component {
             >
               Login
             </MDBBtn>
-            <MDBBtn
+            
+              <Link to="/register"><MDBBtn
               type="button"
               color="deep-green"
-            >
-              <Link to="/register">Register</Link>
-            </MDBBtn>
+            >Register</MDBBtn></Link>
+            
             
           </MDBModalFooter>
         </div>

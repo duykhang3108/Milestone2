@@ -145,6 +145,12 @@ export default class Register extends React.Component {
                             SIGN UP
                                 </MDBBtn>
                         {this.refreshPage()}
+                        
+                            <Link to="/">
+                            <MDBBtn type='button' color='deep-green'>Already had an account?
+                            </MDBBtn>
+                            </Link>
+                                
                     </MDBModalFooter>
                 </div>
 
