@@ -73,7 +73,7 @@ export default class RegisterChange extends React.Component {
             <div>
                 <LoginChange />
                 <div class='row'>
-                    <div class='col' style={{ border: '2px solid grey' }}>
+                    <div class='col' style={{ border: '2px solid grey', paddingLeft: '30px' }}>
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1959.3865447437727!2d106.67931670809078!3d10.828669348071534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528fe994bbcaf%3A0x57fc04b92e1b4ebe!2zROG7sSDDoW4gQ2VudGVyIEhpbGxzIEfDsiBW4bqlcCwgUGjGsOG7nW5nIDcsIEfDsiBW4bqlcCwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1596602735408!5m2!1svi!2s"
                             width="100%"
@@ -83,6 +83,7 @@ export default class RegisterChange extends React.Component {
                             aria-hidden="false"
                             tabIndex="0"
                             title="map"
+                            
                         ></iframe>
                     </div>
                     <div class='col'>
