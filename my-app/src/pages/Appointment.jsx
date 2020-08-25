@@ -1,32 +1,39 @@
 import React, { Component } from 'react'
-
+import DateTimePicker from 'react-datetime-picker';
 export default class Appointment extends Component {
     constructor(props) {
         super(props)
-    
-        this.state = {    
-                title:"",         
-                 guest_name:"",
-                 date:"",
-                 meeting_user:"",
-                 note:"",
-                 status:"",
-                 building:1,
-                 floor:1,
-                 room:1
+
+        this.state = {
+            title: "",
+            guest_name: "",
+            meetingdate: "",
+            meetingtime: "",
+            meeting_user: "",
+            note: "",
+            status: "",
+            building: 1,
+            floor: 1,
+            room: 1,
+            location:"",
+            teachers: [],
+            locations: []
         }
     }
-    resetState()
-    {
-        this.setState({title:"",         
-        guest_name:"",
-        date:"",
-        meeting_user:"",
-        note:"",
-        status:"",
-        building:1,
-        floor:1,
-        room:1})
+    resetState() {
+        this.setState({
+            title: "",
+            guest_name: "",
+            meetingdate: "",
+            meetingtime: "",
+            meeting_user: "",
+            note: "",
+            status: "",
+            building: 1,
+            floor: 1,
+            room: 1,
+            location:""
+        })
     }
     handleChangeTitle(event) {
         // let obj = []
@@ -43,33 +50,57 @@ export default class Appointment extends Component {
         // console.log(this.state.appoinment.guest_name)
         // this.setState(obj)
         this.setState({
-            guest_name : event.target.value
+            guest_name: event.target.value
         });
     }
-    handleChangeMeetingDate(event) {    
+    handleChangeMeetingDate(event) {
         this.setState({
-            meetingdate : event.target.value
+            meetingdate: event.target.value
         });
     }
-    handleChangeMeetinUser(event) {    
+    handleChangeMeetingTime(event) {
         this.setState({
-            meeting_user : event.target.value
+            meetingtime: event.target.value
         });
     }
-    handleChangeNote(event) {    
+    handleChangeMeetingLocation(event) {
         this.setState({
-            note : event.target.value
+            location: event.target.value
         });
     }
-    handleChange(event)
-    {
+    handleChangeMeetinUser(event) {
+        this.setState({
+            meeting_user: event.target.value
+        });
+    }
+    handleChangeNote(event) {
+        this.setState({
+            note: event.target.value
+        });
+    }
+    handleChange(event) {
         let obj = []
         obj[event.target.name] = event.target.value
         this.setState(obj)
     }
-    fetchAppointmentCreate()
-    {
-        var position = this.state.building + "." + this.state.floor + "."+this.state.room
+    fetchTeachers() {
+        let url = "https://5f4529863fb92f0016754661.mockapi.io/teachers"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ teachers: data })
+            })
+    }
+    fetchLocations() {
+        let url = "https://5f4529863fb92f0016754661.mockapi.io/locations"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ locations: data })
+            })
+    }
+    fetchAppointmentCreate() {
+        
         var input = {
             title: this.state.title,
             guest_name: this.props.guest_name,
@@ -77,7 +108,7 @@ export default class Appointment extends Component {
             meeting_user: this.state.meeting_user,
             status: "OnProgress",
             note: this.state.note,
-            location: position
+            location: this.state.location
         }
         var url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
         const response = fetch(url, {
@@ -86,81 +117,70 @@ export default class Appointment extends Component {
             //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             //credentials: 'same-origin', // include, *same-origin, omit
             headers: {
-              'Content-Type': 'application/json'
-              // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             //redirect: 'follow', // manual, *follow, error
             //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(input) // body data type must match "Content-Type" header
-          }) 
-          .then(response => {
-              this.resetState();
-              this.props.refreshProfile();
-          })
+        })
+            .then(response => {
+                this.resetState();
+                this.props.refreshProfile();
+                alert("You have successfully created an appointment");
+            })
     }
-
+    componentDidMount() {
+        this.fetchTeachers()
+        this.fetchLocations()
+    }
+    onChangeDate = meetingdate => this.setState({ meetingdate })
     render() {
         return (
-            <div className = "container">
+            <div className="container">
                 <h1>Appointment Form</h1>
                 <form>
-                <div className = "form-group">
-                        <label htmlFor="title">Title</label>
-                        <input 
-                        type ="text" 
-                        className ="form-control" 
-                        placeholder ="Enter the appointment's title"
-                        name = "title"
-                        onChange = {this.handleChangeTitle.bind(this)}
+                    <div className="form-group">
+                        <h3>Title</h3>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter the appointment's title"
+                            name="title"
+                            onChange={this.handleChangeTitle.bind(this)}
                         />
-                    </div>                    
+                    </div>
 
-                    <div className = "form-group">
-                        <label htmlFor="date">Meeting Date</label>
-                        <input 
-                        type ="date" 
-                        className ="form-control" 
-                        name = "meetingdate"
-                        onChange = {this.handleChangeMeetingDate.bind(this)}/>
+                    <div className="form-group">
+                        <h3>Meeting Date</h3>
+                         <DateTimePicker  value ={this.state.meetingdate}
+                        onChange = {this.onChangeDate} />
                     </div>
-                    <div className = "form-group">
-                        <label htmlFor="meetingperson">Meeting Person</label>
-                        <input 
-                        type ="text" 
-                        className ="form-control" 
-                        placeholder ="Enter the person you want to make appointment"
-                        name = "meetinguser"
-                        onChange = {this.handleChangeMeetinUser.bind(this)}/>
+                    <div className="form-group">
+                        <h3>Meeting Person</h3>
+                         <select onChange={this.handleChangeMeetinUser.bind(this)}>
+                            {this.state.teachers.map(e => {
+                                return <option value={e.name}>{e.name}</option>
+                            })}
+                        </select>
+
                     </div>
-                    <div className = "form-group">
-                        <h2>Location</h2>
-                        Building : 
-                        <input 
-                        type ="number" 
-                        className ="form-control" 
-                        name = "building"
-                        onChange = {this.handleChange.bind(this)}/>
-                        Floor : 
-                        <input 
-                        type ="number" 
-                        className ="form-control" 
-                        name = "floor"
-                        onChange = {this.handleChange.bind(this)}/>
-                        Room : 
-                        <input 
-                        type ="number" 
-                        className ="form-control" 
-                        name = "room"
-                        onChange = {this.handleChange.bind(this)}/>
+                    <div className="form-group">
+                        <h3>Location</h3>
+                        <select onChange={this.handleChangeMeetingLocation.bind(this)}>
+                            {this.state.locations.map(e => {
+                                return <option value={e.name}>{e.name}</option>
+                            })}
+                        </select>
                     </div>
-                    <div className = "form-group">
-                        <label htmlFor="note">Note</label>
-                        <input 
-                        type ="text" 
-                        className ="form-control" 
-                        placeholder ="Enter if there is any prior note"
-                        name = "note"
-                        onChange = {this.handleChangeNote.bind(this)}/>
+                    <div className="form-group">
+                        <h3>Note</h3>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter if there is any prior note"
+                            name="note"
+                            onChange={this.handleChangeNote.bind(this)} />
                     </div>
 
                 </form>
