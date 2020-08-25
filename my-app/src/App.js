@@ -9,19 +9,22 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import ContactForm from './pages/ContactForm';
 import Header from './Header';
+import LoginChange from './pages/LoginChange';
+import RegisterChange from './pages/RegisterChange';
 
 
 
 function App() {
   return (
     <div>
-      <Header></Header>
+      {/* <Route exact path='/RouterTest' component={RouterTest} /> */}
+      {/* <Header></Header> */}
       <Router>
         <Switch>
-          {/* <Route exact path='/RouterTest' component={RouterTest} /> */}
           
-          <Route exact path='/' component={Login} />
-          <Route path='/register' component={Register} />
+          
+          <Route exact path='/' component={RegisterChange} />
+          {/* <Route path='/register' component={Register} /> */}
           <Route path={`/Profile/:userName`} render={(props) =>
             <Profile {...props} />
           }>         
@@ -30,6 +33,7 @@ function App() {
         </Switch>
         <Contact/>
       </Router>
+      {/* <RegisterChange/> */}
       
     </div>
 
