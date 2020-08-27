@@ -16,10 +16,11 @@ export default class Profile extends React.Component {
             email: '',
             lastName: '',
             firstName: '',
+            avatar:'',
         }
     }
 
-    fectchAccount() {
+    fetchAccount() {
         const { match: { params } } = this.props;
         if (this.state.user.id == undefined) {
             //console.log(params.userName)
@@ -60,10 +61,34 @@ export default class Profile extends React.Component {
                     lastName: this.state.lastName
                 })
             })
-                .then(() => this.props.fectchAccount())
+                .then(() => this.props.fetchAccount())
             alert('The account has been successfully updated')
         } else {
             alert('Please enter correct information')
+        }
+    }
+
+    handleUpdateAvatar() {
+        //const {match: {params}} = this.props;
+        if (
+          
+            this.state.avatar !== ''
+        ) {
+            fetch(myGet + '/' + this.state.account[0].id, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'put',
+                body: JSON.stringify({
+                  
+                    avatar: this.state.avatar
+                })
+            })
+                .then(() => this.props.fetchAccount())
+            alert('The account has been successfully updated')
+        } else {
+            alert('Please enter avatar source')
         }
     }
     displayInfo() {
@@ -79,7 +104,19 @@ export default class Profile extends React.Component {
                                         <div className="card mb-3">
                                             <div className="card-body text-center shadow">
                                                 <img alt={this.state.user.avatar} className="rounded-circle mb-3 mt-4" src={this.state.user.avatar} width="160" height="160" />
-                                                <div className="mb-3"><button className="btn btn-primary btn-sm" type="button">Change Photo</button></div>
+                                                <div className="mb-3">
+                                            
+                                                <input
+                                                        className="form-control"
+                                                        type="email"
+                                                        placeholder={this.state.user.avatar}
+                                                        value={this.state.avatar}
+                                                        name="avatar"
+                                                        onChange={this.handleChange.bind(this)}
+                                                />
+                                                <button className="btn btn-primary btn-sm" type="button" onChange={this.handleUpdateAvatar.bind(this)}>Change Photo</button>
+                                                </div>
+                                                <div className="mb-3"><button className="btn btn-primary btn-sm" type="button">Change Password</button></div>
                                             </div>
                                             <div className="card-body text-center shadow">
                                                 <ul>
@@ -223,7 +260,7 @@ export default class Profile extends React.Component {
     }
 
     componentDidMount() {
-        this.fectchAccount()
+        this.fetchAccount()
     }
 
     render() {
