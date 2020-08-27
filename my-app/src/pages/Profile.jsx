@@ -17,10 +17,13 @@ export default class Profile extends React.Component {
             lastName: '',
             firstName: '',
             avatar:'',
+            password:'',
+            npassword:'',
+            cnpassword:'',
         }
     }
 
-    fetchAccount() {
+    fectchAccount() {
         const { match: { params } } = this.props;
         if (this.state.user.id == undefined) {
             //console.log(params.userName)
@@ -49,7 +52,7 @@ export default class Profile extends React.Component {
             this.state.firstName !== '' &&
             this.state.lastName !== ''
         ) {
-            fetch(myGet + '/' + this.state.account[0].id, {
+            fetch(myGet + '/' + this.state.user.id, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -61,20 +64,20 @@ export default class Profile extends React.Component {
                     lastName: this.state.lastName
                 })
             })
-                .then(() => this.props.fetchAccount())
+                .then(() => this.props.fectchAccount())
             alert('The account has been successfully updated')
         } else {
             alert('Please enter correct information')
         }
     }
-
     handleUpdateAvatar() {
         //const {match: {params}} = this.props;
         if (
           
             this.state.avatar !== ''
         ) {
-            fetch(myGet + '/' + this.state.account[0].id, {
+          
+            fetch(myGet + '/' + this.state.user.id, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -85,8 +88,40 @@ export default class Profile extends React.Component {
                     avatar: this.state.avatar
                 })
             })
-                .then(() => this.props.fetchAccount())
-            alert('The account has been successfully updated')
+                .then(() => this.props.fectchAccount())
+            alert('The avatar has been successfully updated')
+        } else {
+            alert('Please enter avatar source')
+        }
+    }
+
+    handleChangePassword(){
+        if (
+            this.state.password !== '' &&
+            this.state.npassword !== '' &&
+            this.state.cnpassword !== ''
+        ) {
+            if (this.state.password === this.state.user.password){
+                if (this.state.npassword === this.state.cnpassword){
+                    fetch(myGet + '/' + this.state.user.id, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'put',
+                        body: JSON.stringify({
+                          
+                            password: this.state.npassword
+                        })
+                    })
+                        .then(() => this.props.fectchAccount())
+                    alert('The password has been successfully updated')
+                }  else{
+                    alert("The new password does not match")
+                }  
+            } else{
+                alert('Check your password again')
+            }
         } else {
             alert('Please enter avatar source')
         }
@@ -107,16 +142,15 @@ export default class Profile extends React.Component {
                                                 <div className="mb-3">
                                             
                                                 <input
-                                                        className="form-control"
-                                                        type="email"
-                                                        placeholder={this.state.user.avatar}
-                                                        value={this.state.avatar}
-                                                        name="avatar"
-                                                        onChange={this.handleChange.bind(this)}
-                                                />
-                                                <button className="btn btn-primary btn-sm" type="button" onChange={this.handleUpdateAvatar.bind(this)}>Change Photo</button>
-                                                </div>
-                                                <div className="mb-3"><button className="btn btn-primary btn-sm" type="button">Change Password</button></div>
+                                                    className="form-control"
+                                                    type="email"
+                                                    placeholder={this.state.user.avatar}
+                                                    value={this.state.avatar}
+                                                    name="avatar"
+                                                    onChange={this.handleChange.bind(this)}
+                                            />
+                                            <button className="btn btn-primary btn-sm" type="submit" onClick={this.handleUpdateAvatar.bind(this)}>Change Photo</button>
+                                            </div>
                                             </div>
                                             <div className="card-body text-center shadow">
                                                 <ul>
@@ -250,6 +284,70 @@ export default class Profile extends React.Component {
                         </form>
                     </div>
                 </div>
+                <div className="card shadow" visible ="false">
+                    <div className="card-header py-3">
+                        <p className="text-primary m-0 font-weight-bold">Private Information</p>
+                    </div>
+                    <div className="card-body" >
+                        <form>
+                        <div className="form-row">
+                              
+                            <div className="col">
+                                    <div className="form-group">
+                                        <label htmlFor="email">
+                                            <strong>Last Password</strong>
+                                        </label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            value={this.state.password}
+                                            name="password"
+                                            onChange={this.handleChange.bind(this)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label htmlFor="first_name">
+                                            <strong>New Password</strong>
+                                        </label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            value={this.state.npassword}
+                                            name="npassword"
+                                            onChange={this.handleChange.bind(this)}
+                                        />
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div className="form-row">
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label htmlFor="first_name">
+                                            <strong>Confirm New Password</strong>
+                                        </label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            value={this.state.cnpassword}
+                                            name="cnpassword"
+                                            onChange={this.handleChange.bind(this)}
+                                        />
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                            <div className="form-group">
+                                <button className="btn btn-primary btn-sm" type="submit" onClick={this.handleChangePassword.bind(this)}>Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     }
@@ -260,7 +358,7 @@ export default class Profile extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchAccount()
+        this.fectchAccount()
     }
 
     render() {
