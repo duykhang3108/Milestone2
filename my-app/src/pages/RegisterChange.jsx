@@ -98,7 +98,7 @@ export default class RegisterChange extends React.Component {
                                 <form className='mx-3 grey-text'>
                                     <MDBInput
                                         label='Username'
-                                        icon='envelope'
+                                        icon='user'
                                         group
                                         name='userName'
                                         type='text'
@@ -110,7 +110,7 @@ export default class RegisterChange extends React.Component {
                                     />
                                     <MDBInput
                                         label='First name'
-                                        icon='envelope'
+                                        icon='signature'
                                         group
                                         name='firstName'
                                         type='text'
@@ -122,7 +122,7 @@ export default class RegisterChange extends React.Component {
                                     />
                                     <MDBInput
                                         label='Last name'
-                                        icon='envelope'
+                                        icon='signature'
                                         group
                                         name='lastName'
                                         type='text'
