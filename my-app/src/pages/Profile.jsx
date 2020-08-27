@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import Appointment from './Appointment'
 import Calendar from './Calendar'
 import ApList from './ApList'
+import EditAppointment from './EditAppointment';
 const myGet = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users'
 export default class Profile extends React.Component {
     constructor() {
@@ -95,14 +96,18 @@ export default class Profile extends React.Component {
                                                 </ul>
                                                 <Calendar userName={this.state.user.userName} />
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <div className="col-lg-8">
                                         <Switch>
                                             <Route exact path="/Profile/:userName" render={e => this.displayProfile(this.state.user)} />
                                             <Route path="/Profile/:userName/Appointments" render={(props) => <Appointment guest_name={this.state.user.userName} refreshProfile={this.refresh.bind(this)} />} />
-                                            <Route path="/Profile/:userName/ViewAppointments" render={(props) => <ApList userName = {this.state.user.userName}/>} />
+                                            <Route path="/Profile/:userName/ViewAppointments" render={(props) => <ApList userName={this.state.user.userName} />} />
+                                            <Route path={`/Profile/:userName/:appointmentId`} render={(props) =>
+                                                <EditAppointment {...props} />
+                                            }>
+                                            </Route>
                                         </Switch>
                                     </div>
                                 </div>

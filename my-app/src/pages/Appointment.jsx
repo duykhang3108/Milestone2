@@ -127,7 +127,7 @@ export default class Appointment extends Component {
             .then(response => {
                 this.resetState();
                 this.props.refreshProfile();
-                alert("You have successfully created an appointment");
+                alert("You have successfully created an appointment")
             })
     }
     componentDidMount() {
@@ -169,7 +169,7 @@ export default class Appointment extends Component {
                         <h3>Location</h3>
                         <select onChange={this.handleChangeMeetingLocation.bind(this)}>
                             {this.state.locations.map(e => {
-                                return <option value={e.name}>{e.name}</option>
+                                return <option value={e.location}>{e.location}</option>
                             })}
                         </select>
                     </div>

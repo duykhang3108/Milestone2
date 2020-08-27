@@ -9,9 +9,10 @@ export default class ApList extends React.Component {
 
     constructor(props) {
         super(props)
-    
+        this.fetchData = this.fetchData.bind(this)
         this.state = {
-             aps:[]
+             aps:[],
+    
         }
     }
     fetchData() {
@@ -24,6 +25,21 @@ export default class ApList extends React.Component {
                 
                 this.setState({aps:data})
             })
+    }
+    deleteFunction(value)
+    {
+        var confirmation = window.confirm("Do you want to delete this appointment?")
+        if(confirmation=== true)
+        {
+        var url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments/" +value
+        const response = fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        })
+            .then(response => {
+                
+                alert("You have successfully deleted an appointment");
+            })
+        }
     }
     componentDidMount() {
         this.fetchData()
@@ -43,7 +59,14 @@ export default class ApList extends React.Component {
                             <div className="row align-items-center mt-5">
                             {this.state.aps.map((a)=>
                     <Link to={`/advertisement/${a.id}`} style={{ color: "inherit", textDecoration: "none" }} className="col-lg-4 pb-4">
-                        <OneAd title={a.title} location={a.location} time={a.meetingdate} avatar={a.avatar}/>
+                        <OneAd 
+                        appointmentId ={a.id}
+                        userName = {a.guest_name} 
+                        title={a.title} 
+                        location={a.location} 
+                        time={a.meetingdate} 
+                        avatar={a.avatar}
+                        deleteFunction = {this.deleteFunction}/>
                     </Link>
                     )}
                             </div>

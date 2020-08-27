@@ -1,5 +1,5 @@
 import React from 'react'
-
+import DateTimePicker from 'react-datetime-picker';
 const myPut = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
 export default class EditAppointment extends React.Component {
     constructor(props) {
@@ -10,20 +10,22 @@ export default class EditAppointment extends React.Component {
             type: 'text',
             title: "",
             guest_name: "",
-            date: "",
+            meetingdate: "",
             meeting_user: "",
             note: "",
             status: "",
             location: "",
             building: 1,
             floor: 1,
-            room: 1
+            room: 1,
+            locations:[],
+            teachers:[]
         }
     }
 
     fetchAppointment() {
-        // const { match: { params } } = this.props
-        fetch(myPut + "/" + 5)
+        const { match: { params } } = this.props
+        fetch(myPut + "/" + params.appointmentId)
             .then(response => response.json())
             .then(json => {
                 this.setState({ oneApp: json })
@@ -34,27 +36,28 @@ export default class EditAppointment extends React.Component {
     // Acessing data from API recall
     displayInfo() {
         // Spliting the location into different fields
-        var locationSplit = []
-        locationSplit = this.state.oneApp.location.split(".")
-        
+        //var locationSplit = []
+       // locationSplit = this.state.oneApp.location.split(".")
+        var date = new Date(this.state.oneApp.meetingdate)
         this.setState({
             title: this.state.oneApp.title,
-            date: this.state.oneApp.meetingdate,
+            meetingdate: date,
             meeting_user: this.state.oneApp.meeting_user,
             note: this.state.oneApp.note,
-            building: locationSplit[0],
-            floor: locationSplit[1],
-            room: locationSplit[2]
+            location: this.state.oneApp.location
+            //building: locationSplit[0],
+            //floor: locationSplit[1],
+            //room: locationSplit[2]
         })
-        console.log('Displayed')
+        //console.log(this.state.location)
     }
-
+    
     handleChange(event) {
         let obj = []
         obj[event.target.name] = event.target.value
         this.setState(obj)
     }
-
+    onChangeDate = meetingdate => this.setState({ meetingdate })
     onFocus() {
         this.setState({
             type: 'date'
@@ -79,18 +82,35 @@ export default class EditAppointment extends React.Component {
             method: 'put',
             body: JSON.stringify({
                 title: this.state.title,
-                meetingdate: this.state.date,
+                meetingdate: this.state.meetingdate,
                 meeting_user: this.state.meeting_user,
                 note: this.state.note,
-                location: location
+                location: this.state.location
             })
         })
             .then(() => this.fetchAppointment())
         alert('The appointment has been successfully updated')
     }
-
+    fetchTeachers() {
+        let url = "https://5f4529863fb92f0016754661.mockapi.io/teachers"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ teachers: data })
+            })
+    }
+    fetchLocations() {
+        let url = "https://5f4529863fb92f0016754661.mockapi.io/locations"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ locations: data })
+            })
+    }
     componentDidMount() {
-        this.fetchAppointment()
+        this.fetchAppointment();
+        this.fetchLocations();
+        this.fetchTeachers();
         console.log('Fetched')
     }
 
@@ -112,29 +132,41 @@ export default class EditAppointment extends React.Component {
                     {/* The date is not showing */}
                     <div className="form-group">
                         <label htmlFor="date">Meeting Date</label>
-                        <input
-                            type={this.state.type}
-                            className="form-control"
-                            name="meetingdate"
-                            placeholder={this.state.date}
-                            onFocus={()=> this.onFocus()}
-                            onBlur={() => this.onBlur()}
-                            onChange={this.handleChange.bind(this)}
-                        />
+                        <h3>Meeting Date</h3>
+                        <DateTimePicker  value ={this.state.meetingdate}
+                        onChange = {this.onChangeDate} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="meetingperson">Meeting Person</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder={this.state.meeting_user}
-                            name="meetinguser"
-                            onChange={this.handleChange.bind(this)}
-                        />
+                        <select name="meeting_user" onChange={this.handleChange.bind(this)}>
+                            {this.state.teachers.map(e => {
+                                if(e.name === this.state.meeting_user)
+                                {
+                                    return <option value={e.name} selected>{e.name}</option>
+                                }
+                                return <option value={e.name}>{e.name}</option>
+                            })}
+                        </select>
                     </div>
                     <div className="form-group">
                         <h2>Location</h2>
-                        Building :
+                        <select 
+                        onChange={this.handleChange.bind(this)} 
+                        >
+                            {this.state.locations.map(e => {
+                                
+                                if(e.location === this.state.location)
+                                {
+                                    
+                                    return <option value={e.location} selected>{e.location}</option>
+                                }
+                                else
+                                {
+                                    return <option value={e.location}>{e.location}</option>
+                                }
+                            })}
+                        </select>
+                        {/* Building :
                         <input
                             type="number"
                             className="form-control"
@@ -157,7 +189,7 @@ export default class EditAppointment extends React.Component {
                             name="room"
                             placeholder={this.state.room}
                             onChange={this.handleChange.bind(this)}
-                        />
+                        /> */}
                     </div>
                     <div className="form-group">
                         <label htmlFor="note">Note</label>

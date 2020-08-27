@@ -14,6 +14,7 @@ import RegisterChange from './pages/RegisterChange';
 
 
 
+
 function App() {
   return (
     <div>
@@ -27,8 +28,9 @@ function App() {
           {/* <Route path='/register' component={Register} /> */}
           <Route path={`/Profile/:userName`} render={(props) =>
             <Profile {...props} />
-          }>         
+          }>   
           </Route>
+          
           <Route path ="/contactform" component ={ContactForm}/>
         </Switch>
         <Contact/>

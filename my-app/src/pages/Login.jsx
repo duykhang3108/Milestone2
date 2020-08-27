@@ -40,7 +40,7 @@ export default class LoginPage extends React.Component {
         var user = data.find(e => e.email === this.state.email);
         if (user !==null) {
           this.setState({ myuser:user })
-          
+          alert("you have logged in successfully!");
         }
 
       })

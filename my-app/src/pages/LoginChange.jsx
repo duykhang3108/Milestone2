@@ -37,9 +37,20 @@ export default class LoginChange extends React.Component {
             .then(res => res.json())
             .then(data => {
                 var user = data.find(e => e.email === this.state.email);
-                if (user !== null) {
-                    this.setState({ myuser: user })
-
+                if (user !== undefined) {
+                    if(this.state.password == user.password)
+                    {
+                        this.setState({ myuser: user })
+                        alert("You have logged in successfully")
+                    }
+                    else
+                    {
+                        alert("Wrong password!")
+                    }
+                }
+                else
+                {
+                    alert("User does not exist!")
                 }
 
             })
