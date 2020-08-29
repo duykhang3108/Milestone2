@@ -17,7 +17,7 @@
     "react-css-loaders": "0.0.6",
     "react-datetime-picker": "^3.0.2",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
     "sass": "^1.26.10",
     "typescript": "^3.9.7"
   },

@@ -5,6 +5,8 @@ import Appointment from './Appointment'
 import Calendar from './Calendar'
 import ApList from './ApList'
 import EditAppointment from './EditAppointment';
+import { Redirect } from 'react-router-dom';
+import RegisterChange from './RegisterChange';
 const myGet = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users'
 export default class Profile extends React.Component {
     constructor() {
@@ -127,6 +129,9 @@ export default class Profile extends React.Component {
             alert('Please enter avatar source')
         }
     }
+    logOut(){
+        return <Redirect to="/"></Redirect>
+    }
     displayInfo() {
         return (
             <div id="wrapper">
@@ -151,6 +156,7 @@ export default class Profile extends React.Component {
                                                     onChange={this.handleChange.bind(this)}
                                             />
                                             <button className="btn btn-primary btn-sm" type="submit" onClick={this.handleUpdateAvatar.bind(this)}>Change Photo</button>
+                                        
                                             </div>
                                             </div>
                                             <div className="card-body text-center shadow">
@@ -164,6 +170,9 @@ export default class Profile extends React.Component {
                                                     <li>
                                                         <Link to={"/Profile/" + this.state.user.userName + "/ViewAppointments"}>View Appointment</Link>
                                                     </li>
+                                                    <li>
+                                                        <Link to={"/"}>Log Out</Link>
+                                                    </li>
                                                 </ul>
                                                 <Calendar userName={this.state.user.userName} />
                                             </div>
@@ -172,11 +181,16 @@ export default class Profile extends React.Component {
                                     </div>
                                     <div className="col-lg-8">
                                         <Switch>
+                                    
                                             <Route exact path="/Profile/:userName" render={e => this.displayProfile(this.state.user)} />
                                             <Route path="/Profile/:userName/Appointments" render={(props) => <Appointment guest_name={this.state.user.userName} refreshProfile={this.refresh.bind(this)} />} />
                                             <Route path="/Profile/:userName/ViewAppointments" render={(props) => <ApList userName={this.state.user.userName} />} />
                                             <Route path={`/Profile/:userName/:appointmentId`} render={(props) =>
                                                 <EditAppointment {...props} />
+                                            }>
+                                            </Route>
+                                            <Route path={`/`} render={(props) =>
+                                                <RegisterChange {...props} />
                                             }>
                                             </Route>
                                         </Switch>
