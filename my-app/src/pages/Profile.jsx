@@ -26,19 +26,21 @@ export default class Profile extends React.Component {
         }
     }
 
+    // Fetch the account using props passed down from the Login component
     fectchAccount() {
-        const { match: { params } } = this.props;
+        const { match: { params } } = this.props; // Seperate params from props for easier future call
         if (this.state.user.id == undefined) {
-            //console.log(params.userName)
             fetch(myGet)
                 .then(res => res.json())
                 .then(json => {
+                    // Find the exact account among the retrieved data and add it to the state
                     let data = json.filter(a => a.userName === params.userName)
-                    this.setState({ user: data[0] })
-                    //console.log(this.state.user);
+                    this.setState({ user: data[0] })                  
                 })
         }
     }
+
+    // Prepare the found account for display
     refresh() {
         const Url = 'https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/users/' + this.state.user.id;
         fetch(Url)
@@ -48,13 +50,14 @@ export default class Profile extends React.Component {
             })
 
     }
-    handleUpdate() {
-        //const {match: {params}} = this.props;
-        if (
+
+    // The Put method for updating user's information
+    handleUpdate() {       
+        if (// Check if the needed fields are not empty
             this.state.email !== '' &&
             this.state.firstName !== '' &&
             this.state.lastName !== ''
-        ) {
+        ) {// The Put method will be as follow
             fetch(myGet + '/' + this.state.user.id, {
                 headers: {
                     'Accept': 'application/json',
@@ -62,19 +65,21 @@ export default class Profile extends React.Component {
                 },
                 method: 'put',
                 body: JSON.stringify({
+                    // Declare and stringify the fields that need updating
                     email: this.state.email,
                     firstName: this.state.firstName,
                     lastName: this.state.lastName
                 })
             })
-                .then(() => this.props.fectchAccount())
+                .then(() => this.props.fectchAccount()) // Fetch the exact account again to apply changes
             alert('The account has been successfully updated')
         } else {
             alert('Please enter correct information')
         }
     }
+
+    // Similar to the Put method above but is designed to the avatar change only
     handleUpdateAvatar() {
-        //const {match: {params}} = this.props;
         if (
           
             this.state.avatar !== ''
@@ -98,6 +103,7 @@ export default class Profile extends React.Component {
         }
     }
 
+    // Similar to the Put method above but is designed for the password change only
     handleChangePassword(){
         if (
             this.state.password !== '' &&
@@ -129,9 +135,12 @@ export default class Profile extends React.Component {
             alert('Please enter avatar source')
         }
     }
+
     logOut(){
         return <Redirect to="/"></Redirect>
     }
+
+    // This block of code is for the left side of the screens, avatar and calendar
     displayInfo() {
         return (
             <div id="wrapper">
@@ -203,6 +212,8 @@ export default class Profile extends React.Component {
             </div>
         )
     }
+
+    // This block of code is for the right side of the screen, displaying private information such as name and password
     displayProfile(a) {
         return <div className="row">
             <div className="col">
@@ -360,7 +371,6 @@ export default class Profile extends React.Component {
                                 </div>
                                
                             </div>
-
                             <div className="form-group">
                                 <button className="btn btn-primary btn-sm" type="submit" onClick={this.handleChangePassword.bind(this)}>Change Password</button>
                             </div>
@@ -370,12 +380,15 @@ export default class Profile extends React.Component {
             </div>
         </div>
     }
+
+    // Register changes to the state
     handleChange(event) {
         let obj = []
         obj[event.target.name] = event.target.value
         this.setState(obj)
     }
 
+    // Start the component with the defined method called immediately
     componentDidMount() {
         this.fectchAccount()
     }

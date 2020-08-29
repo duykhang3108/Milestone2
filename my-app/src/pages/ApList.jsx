@@ -6,7 +6,6 @@ import {  Link } from "react-router-dom";
 
 
 export default class ApList extends React.Component {
-
     constructor(props) {
         super(props)
         this.fetchData = this.fetchData.bind(this)
@@ -15,6 +14,8 @@ export default class ApList extends React.Component {
     
         }
     }
+
+    // Fetch the list appointment that the logged in user has made
     fetchData() {
         let url = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
         fetch(url)
@@ -26,6 +27,8 @@ export default class ApList extends React.Component {
                 this.setState({aps:data})
             })
     }
+
+    // This method is called within the OneAp component
     deleteFunction(value)
     {
         var confirmation = window.confirm("Do you want to delete this appointment?")
@@ -41,6 +44,8 @@ export default class ApList extends React.Component {
             })
         }
     }
+
+    // Start the component with the mentioned method
     componentDidMount() {
         this.fetchData()
         console.log("in ad list")

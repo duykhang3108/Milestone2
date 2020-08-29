@@ -1,5 +1,6 @@
 import React from 'react'
 import DateTimePicker from 'react-datetime-picker';
+
 const myPut = "https://5cb2d49e6ce9ce00145bef17.mockapi.io/api/v1/appointments"
 export default class EditAppointment extends React.Component {
     constructor(props) {
@@ -49,30 +50,34 @@ export default class EditAppointment extends React.Component {
             //floor: locationSplit[1],
             //room: locationSplit[2]
         })
-        //console.log(this.state.location)
     }
     
+    // Register changes to the state
     handleChange(event) {
         let obj = []
         obj[event.target.name] = event.target.value
         this.setState(obj)
     }
     onChangeDate = meetingdate => this.setState({ meetingdate })
+
+    // Not currently in use, for development reference only
     onFocus() {
         this.setState({
             type: 'date'
         })
     }
 
+    // Not currently in use, for development reference only
     onBlur() {
         this.setState({
             type: 'text'
         })
     }
 
+    // The Put method for updating an appointment's fields
     handleUpdate() {
         // Re-combining fields into one location field 
-        // for easy update
+        // for easy update, not currently in use
         var location = this.state.building + "." + this.state.floor + "." + this.state.room
         fetch(myPut + '/' + this.state.oneApp.id, {
             headers: {
@@ -91,6 +96,8 @@ export default class EditAppointment extends React.Component {
             .then(() => this.fetchAppointment())
         alert('The appointment has been successfully updated')
     }
+
+    // Fetch the available teachers for people to choose from
     fetchTeachers() {
         let url = "https://5f4529863fb92f0016754661.mockapi.io/teachers"
         fetch(url)
@@ -99,6 +106,8 @@ export default class EditAppointment extends React.Component {
                 this.setState({ teachers: data })
             })
     }
+
+    // Fetch the available locations for people to choose from
     fetchLocations() {
         let url = "https://5f4529863fb92f0016754661.mockapi.io/locations"
         fetch(url)
@@ -107,11 +116,13 @@ export default class EditAppointment extends React.Component {
                 this.setState({ locations: data })
             })
     }
+
+    // Start the component with the mentioned method called
     componentDidMount() {
         this.fetchAppointment();
         this.fetchLocations();
         this.fetchTeachers();
-        console.log('Fetched')
+        console.log('Fetched') // Test whether they run succesfully
     }
 
     render() {
@@ -129,7 +140,6 @@ export default class EditAppointment extends React.Component {
                             onChange={this.handleChange.bind(this)}
                         />
                     </div>
-                    {/* The date is not showing */}
                     <div className="form-group">
                         <label htmlFor="date">Meeting Date</label>
                         <h3>Meeting Date</h3>
